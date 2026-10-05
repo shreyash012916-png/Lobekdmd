@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07100d">
+  <meta name="description" content="ORBITA mission control for a school science exhibition — autonomous agriculture and industry model control.">
+  <title>ORBITA — Mission Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="noise"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div><div class="eyebrow">EXHIBITION / MISSION CONTROL 01</div><div class="brand-name">ORBITA</div></div>
+    </div>
+    <div class="mission-status"><span class="pulse"></span><strong id="missionState">SYSTEM NOMINAL</strong><span class="divider"></span><span id="clock">--:--:--</span></div>
+    <div class="top-actions"><button class="chip" id="voiceStatus">VOICE READY</button><button class="ghost" id="settingsBtn">SYSTEM CONFIG</button></div>
+  </header>
+
+  <main>
+    <section class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow accent">AUTONOMOUS INDUSTRY × AGRICULTURE</div>
+        <h1>One command.<br><em>Two living systems.</em></h1>
+        <p>Speak to the mission core, read the model state, load your exhibition brief, and execute only validated hardware actions.</p>
+        <div class="hero-actions">
+          <button class="primary voice-main" id="voiceBtn"><span class="mic-ring">◉</span><span id="voiceLabel">TALK TO ORBITA</span></button>
+          <button class="secondary" id="demoBtn">SIMULATION OFF</button>
+        </div>
+        <div class="quick-prompts">
+          <button data-prompt="Check the agriculture field and tell me whether the soil is dry.">CHECK FIELD</button>
+          <button data-prompt="Enable automatic irrigation for agriculture.">AUTO IRRIGATION</button>
+          <button data-prompt="Give me a complete status of industry.">INDUSTRY STATUS</button>
+        </div>
+      </div>
+
+      <div class="core-stage" aria-label="ORBITA intelligence core visual">
+        <div class="radar-rings"><div></div><div></div><div></div></div>
+        <div class="crosshair"></div>
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="core-shell"><div class="core-face"><div class="core-spark"></div></div><div class="core-caption">ORBITA <small>INTELLIGENCE CORE</small></div></div>
+        <div class="core-data data-one"><span>MODEL</span><b id="modelName">GEMINI 3.8 FLASH</b></div>
+        <div class="core-data data-two"><span>LINK</span><b id="aiStatus">CHECKING</b></div>
+        <div class="core-data data-three"><span>VOICE</span><b id="voiceTech">BROWSER VOICE</b></div>
+      </div>
+    </section>
+
+    <section class="command-shell">
+      <div class="command-head"><span class="eyebrow">COMMAND BUS</span><span id="commandState">READY</span></div>
+      <div class="command-row"><div class="command-icon">⌁</div><input id="commandInput" placeholder="Say or type: “Check the farm and enable automatic irrigation if needed.”" autocomplete="off"><button id="sendBtn">EXECUTE <span>↗</span></button></div>
+      <div class="command-foot"><span>Natural language → Gemini planner → validated action → ESP32</span><span id="latency">—</span></div>
+    </section>
+
+    <section class="dashboard">
+      <article class="zone-card agriculture">
+        <div class="card-head"><div><span class="zone-index">01 / FIELD SYSTEM</span><h2>AGRICULTURE</h2></div><span class="status-pill" id="agStatus"><i></i> OFFLINE</span></div>
+        <div class="field-visual"><div class="sun"></div><div class="scanline"></div><div class="crop crop1"></div><div class="crop crop2"></div><div class="crop crop3"></div><div class="soil"></div><div class="water-line"></div><div class="telemetry-tag">MOISTURE → AUTONOMY</div></div>
+        <div class="metrics"><div><span>SOIL</span><b id="soil">—</b><small>% moisture</small></div><div><span>TANK</span><b id="tank">—</b><small>% reserve</small></div><div><span>AIR</span><b id="air">—</b><small>°C</small></div></div>
+        <div class="state-row"><span>PUMP <b id="pumpState">—</b></span><span>AUTO <b id="autoState">—</b></span></div>
+        <div class="control-strip"><button data-action="pump_on" data-zone="agriculture">PUMP ON</button><button data-action="pump_off" data-zone="agriculture">PUMP OFF</button><button data-action="auto_on" data-zone="agriculture">AUTO ON</button><button data-action="auto_off" data-zone="agriculture">AUTO OFF</button></div>
+      </article>
+
+      <article class="zone-card industry">
+        <div class="card-head"><div><span class="zone-index">02 / WORKS SYSTEM</span><h2>INDUSTRY</h2></div><span class="status-pill" id="inStatus"><i></i> OFFLINE</span></div>
+        <div class="industry-visual"><div class="grid-lines"></div><div class="machine"><div class="gear g1">✦</div><div class="gear g2">✦</div><div class="machine-core"></div></div><div class="cam-frame"><span>CAM FEED</span><div id="camPlaceholder">NO SIGNAL</div><img id="camImage" alt="ESP32-CAM feed" hidden></div><div class="telemetry-tag">MACHINE INTEGRITY</div></div>
+        <div class="metrics"><div><span>LOAD</span><b id="load">—</b><small>%</small></div><div><span>VIBRATION</span><b id="vibration">—</b><small>g</small></div><div><span>AIR</span><b id="indAir">—</b><small>°C</small></div></div>
+        <div class="state-row"><span>MACHINE <b id="machineState">—</b></span><span>CAM <b id="cameraState">—</b></span></div>
+        <div class="control-strip"><button data-action="machine_on" data-zone="industry">MACHINE ON</button><button data-action="machine_off" data-zone="industry">MACHINE OFF</button><button class="danger" data-action="emergency_stop" data-zone="industry">EMERGENCY STOP</button></div>
+      </article>
+    </section>
+
+    <section class="ops-grid">
+      <article class="panel conversation-panel"><div class="panel-head"><div><span>ORBITA CONSOLE</span><small>VOICE + TEXT</small></div><button id="clearChat">CLEAR</button></div><div id="chat" class="chat"><div class="bubble bot"><small>ORBITA</small><p>Mission control ready. I’m listening.</p></div></div></article>
+      <article class="panel brief-panel"><div class="panel-head"><div><span>MISSION BRIEF</span><small>PDF CONTEXT</small></div><span id="briefState">NO FILE</span></div><label class="drop-zone" id="dropZone"><input id="pdfInput" type="file" accept="application/pdf"><div class="drop-icon">＋</div><strong>Drop a PDF here</strong><span>or tap to upload your plan / instructions</span><em>MAX 10 MB</em></label><div class="brief-file" id="briefFile" hidden><div><strong id="briefName">mission-brief.pdf</strong><span id="briefSummary">PDF loaded.</span></div><button id="clearBrief">REMOVE</button></div></article>
+      <article class="panel log-panel"><div class="panel-head"><div><span>MISSION LOG</span><small>LIVE EVENTS</small></div><button id="clearLog">CLEAR</button></div><div id="log" class="log"></div></article>
+    </section>
+  </main>
+
+  <footer><span>ORBITA / EXHIBITION BUILD 02</span><span>ESP32 · ESP32-CAM · GEMINI INTELLIGENCE</span><span id="networkMode">CONTROL BUS: BROWSER → ESP32</span></footer>
+
+  <div class="modal" id="settingsModal" aria-hidden="true"><div class="modal-card"><button class="close" id="closeSettings">×</button><div class="eyebrow accent">SYSTEM CONFIGURATION</div><h2>Connect the physical model</h2><p>Use the ESP addresses reachable from the device running this page. For a physical demo, the control laptop/phone should be on the same Wi-Fi as the ESPs.</p><label>AGRICULTURE ESP32<input id="agUrl" placeholder="http://192.168.1.50"></label><label>INDUSTRY ESP32 / CAM<input id="indUrl" placeholder="http://192.168.1.51"></label><label class="check"><input type="checkbox" id="simulate"> Simulation mode</label><label class="check"><input type="checkbox" id="speakReplies" checked> Speak ORBITA replies</label><div class="modal-actions"><button class="secondary" id="testConnections">TEST LINKS</button><button class="secondary" id="testVoice">TEST VOICE</button></div><div class="modal-actions single-save"><button class="primary" id="saveSettings">SAVE CONFIG</button></div><div id="testResult" class="test-result"></div></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
